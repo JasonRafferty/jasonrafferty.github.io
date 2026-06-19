@@ -141,7 +141,7 @@
   display: flex;
   gap: 1.5rem;
   width: max-content;
-  animation: testimonials-scroll 40s linear infinite;
+  animation: testimonials-scroll 55s linear infinite;
 }
 
 
