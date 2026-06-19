@@ -53,6 +53,11 @@
   margin-top: 0.5rem;
 }
 
+/* Hide social/CTA buttons in mobile dropdown */
+.nav[data-open="true"] .nav__links .nav__cta {
+  display: none;
+}
+
 /* Desktop nav: always visible at 860px+ */
 @media (min-width: 860px) {
   .nav__links {
@@ -139,9 +144,6 @@
   animation: testimonials-scroll 40s linear infinite;
 }
 
-.testimonials-marquee:hover .testimonials-track {
-  animation-play-state: paused;
-}
 
 @keyframes testimonials-scroll {
   0%   { transform: translateX(0); }
