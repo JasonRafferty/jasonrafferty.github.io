@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = 'PLACEHOLDER'; // TODO Jason: replace with your number e.g. '447700900000'
+const WHATSAPP_NUMBER = '447897348436'; // UK 07897348436 in international format
 
 // Wire WhatsApp links
 document.querySelectorAll('.js-whatsapp').forEach(el => {
@@ -40,76 +40,3 @@ if ('IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
 }
-
-// ===== TESTIMONIAL CAROUSEL =====
-(function () {
-  const carousel = document.querySelector('.testimonial-carousel');
-  if (!carousel) return;
-
-  const slides = Array.from(carousel.querySelectorAll('.testimonial-carousel__slide'));
-  const dotsContainer = carousel.querySelector('.testimonial-carousel__dots');
-  const btnPrev = carousel.querySelector('.testimonial-carousel__btn--prev');
-  const btnNext = carousel.querySelector('.testimonial-carousel__btn--next');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  let current = 0;
-  let autoTimer = null;
-  const INTERVAL = 5000;
-
-  // Build dot buttons
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'testimonial-carousel__dot';
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
-    dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-    dot.addEventListener('click', () => goTo(i));
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = Array.from(dotsContainer.querySelectorAll('.testimonial-carousel__dot'));
-
-  function showSlide(index) {
-    current = (index + slides.length) % slides.length;
-    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
-    dots.forEach((dot, i) => dot.setAttribute('aria-selected', i === current ? 'true' : 'false'));
-  }
-
-  function goTo(index) {
-    showSlide(index);
-  }
-
-  function startAuto() {
-    if (autoTimer) clearInterval(autoTimer);
-    autoTimer = setInterval(() => showSlide(current + 1), INTERVAL);
-  }
-
-  function stopAuto() {
-    if (autoTimer) {
-      clearInterval(autoTimer);
-      autoTimer = null;
-    }
-  }
-
-  // Initialise first slide
-  slides[0].classList.add('is-active');
-
-  // Wire arrow buttons
-  btnPrev.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
-  btnNext.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
-
-  // Pause on hover
-  carousel.addEventListener('mouseenter', stopAuto);
-  carousel.addEventListener('mouseleave', startAuto);
-
-  // Keyboard support for arrows
-  carousel.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') { stopAuto(); goTo(current - 1); startAuto(); }
-    if (e.key === 'ArrowRight') { stopAuto(); goTo(current + 1); startAuto(); }
-  });
-
-  // Start auto-advance (skip if reduced motion)
-  if (!reducedMotion) {
-    startAuto();
-  }
-})();
