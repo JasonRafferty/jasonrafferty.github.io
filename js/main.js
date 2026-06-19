@@ -70,36 +70,9 @@ if ('IntersectionObserver' in window) {
   const dots = Array.from(dotsContainer.querySelectorAll('.testimonial-carousel__dot'));
 
   function showSlide(index) {
-    const prev = current;
     current = (index + slides.length) % slides.length;
-
-    // Update slides
-    slides.forEach((slide, i) => {
-      if (i === current) {
-        slide.removeAttribute('hidden');
-        // Force reflow so the transition fires when opacity goes 0 → 1
-        // eslint-disable-next-line no-unused-expressions
-        slide.offsetHeight;
-        slide.classList.add('is-active');
-      } else {
-        slide.classList.remove('is-active');
-        if (reducedMotion) {
-          slide.setAttribute('hidden', '');
-        } else {
-          // Wait for fade-out before hiding
-          const onEnd = () => {
-            slide.setAttribute('hidden', '');
-            slide.removeEventListener('transitionend', onEnd);
-          };
-          slide.addEventListener('transitionend', onEnd);
-        }
-      }
-    });
-
-    // Update dots
-    dots.forEach((dot, i) => {
-      dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
-    });
+    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
+    dots.forEach((dot, i) => dot.setAttribute('aria-selected', i === current ? 'true' : 'false'));
   }
 
   function goTo(index) {
@@ -120,7 +93,6 @@ if ('IntersectionObserver' in window) {
 
   // Initialise first slide
   slides[0].classList.add('is-active');
-  slides[0].removeAttribute('hidden');
 
   // Wire arrow buttons
   btnPrev.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
