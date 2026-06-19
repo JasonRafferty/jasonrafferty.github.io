@@ -164,3 +164,19 @@
     animation: none;
   }
 }
+
+/* ===== FAQ ACCORDION ===== */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.faq-item.is-open .faq-answer {
+  max-height: 500px;
+}
+.faq-chevron {
+  transition: transform 0.3s ease;
+}
+.faq-item.is-open .faq-chevron {
+  transform: rotate(180deg);
+}
