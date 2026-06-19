@@ -16,8 +16,9 @@ to scan on any device.
 
 - **Plain HTML, CSS, and JavaScript only.** No React, Next.js, Vite, Tailwind, build step,
   backend, or database.
-- Must work as static files on **GitHub Pages** (repo `jasonrafferty.github.io`,
-  live at `https://jasonrafferty.github.io`).
+- Must work as static files on **GitHub Pages**. Repo **`JasonRafferty.github.io`**
+  (already exists, empty) under username **`JasonRafferty`** — live at
+  **`https://jasonrafferty.github.io`** (Pages URLs are always lowercase).
 - **Mobile-friendly** and accessible (keyboard focus, reduced-motion, good contrast).
 - **Booking is WhatsApp only.** No contact forms, no email capture.
 - **No fake content.** Testimonials, bio, resource links and the WhatsApp number are
@@ -45,6 +46,8 @@ without being childish.
 - **Signature element:** a gold **exercise-book margin rule** down key sections, plus gold
   **✓ tick** markers on lists. This is the one memorable motif; everything else stays quiet.
 - **Motion:** restrained — gentle scroll reveals, soft hover lift. Respects reduced-motion.
+- **Brand mark:** a **circular photo of Jason** (headshot) beside the "Jason Rafferty
+  Tutoring" wordmark — no logo. Ships with a placeholder image until Jason supplies his.
 
 ## 4. Site structure (4 pages)
 
@@ -61,12 +64,14 @@ persistent gold WhatsApp button.
 
 2. **About & Subjects (`about.html`)**
    - Bio / experience / teaching approach — **placeholder text** for Jason.
+   - Levels taught: **Primary / KS1–KS2, Secondary / GCSE, A-Level / college.**
    - Subjects covered: Maths, Science, English, Coding basics (HTML, CSS, JavaScript).
    - Location info: Manchester, online, and in person depending on area.
 
 3. **Pricing & Availability (`pricing.html`)**
    - Prices: **Online £25/hr**, **In person £30/hr** (depending on location).
-   - Availability area: simple weekly grid (editable placeholder slots).
+   - Availability area: simple weekly grid, **Monday–Friday** × Morning / Afternoon /
+     Evening, with **weekends available on request** noted. Editable example slots.
    - Cancellation policy: notice required before cancelling or rearranging.
 
 4. **Resources (`resources.html`)**
