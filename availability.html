@@ -3,12 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Tutoring rates from £25/hr with flexible online and in-person sessions. Clear pricing, no hidden fees. Book via WhatsApp with Jason Rafferty, Manchester tutor.">
+  <meta name="description" content="Weekday evening tutoring availability from 5:30pm with Jason Rafferty, Manchester tutor. Check open slots and book via WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
-  <title>Pricing | Jason Rafferty Tutoring</title>
+  <title>Availability | Jason Rafferty Tutoring</title>
+  <style>
+    /* ===================================================================
+       WEEKLY AVAILABILITY CALENDAR
+       Each block below is placed on a grid. To edit your availability you
+       only change two things on a block: its column (day) and its rows (time).
+
+         grid-column:  Mon = 2 · Tue = 3 · Wed = 4 · Thu = 5 · Fri = 6
+
+         grid-row: <start line> / <end line>   — time lines are:
+           5:00pm = 2    7:00pm = 6     9:00pm = 10
+           5:30pm = 3    7:30pm = 7     9:30pm = 11
+           6:00pm = 4    8:00pm = 8    10:00pm = 12
+           6:30pm = 5    8:30pm = 9
+
+       Example: an open Tuesday slot from 7:30pm to 10pm →
+         grid-column: 3; grid-row: 7 / 12
+
+       Block types: .cal__avail (open/gold) · .cal__booked (taken/grey) ·
+       .cal__slot (closed — before 5:30pm).
+       =================================================================== */
+    .cal {
+      display: grid;
+      grid-template-columns: 3.25rem repeat(5, minmax(0, 1fr));
+      grid-template-rows: 2.25rem repeat(10, 3rem);
+      gap: 0.375rem;
+      min-width: 620px;
+    }
+    .cal__head {
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.9rem; color: #16233B;
+    }
+    .cal__time {
+      align-self: start;
+      justify-self: end;
+      padding-right: 0.4rem;
+      font-size: 0.7rem; font-weight: 600; color: #9ca3af;
+    }
+    .cal__slot {            /* closed — before 5:30pm */
+      background: repeating-linear-gradient(45deg, #f4f1ea, #f4f1ea 5px, #ece7db 5px, #ece7db 10px);
+      border-radius: 0.45rem;
+    }
+    .cal__booked {
+      display: flex; align-items: center; justify-content: center;
+      background: #f1f2f4; color: #9aa1ac;
+      font-size: 0.72rem; font-weight: 600;
+      border-radius: 0.55rem;
+    }
+    .cal__avail {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.1rem; padding: 0.25rem; text-align: center; text-decoration: none;
+      background: #C2982E; color: #ffffff;
+      border-radius: 0.55rem;
+      box-shadow: 0 2px 6px rgba(194, 152, 46, 0.35);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .cal__avail:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(194, 152, 46, 0.45); }
+    .cal__avail:focus-visible { outline: 2px solid #16233B; outline-offset: 2px; }
+    .cal__avail b { font-size: 0.82rem; font-weight: 700; line-height: 1.1; }
+    .cal__avail span { font-size: 0.66rem; opacity: .92; line-height: 1.1; }
+  </style>
 </head>
 <body class="bg-paper font-body text-ink">
 
@@ -20,7 +80,7 @@
       <div class="flex items-center justify-end h-16">
 
 
-        <!-- Nav links (hidden on mobile, shown at 860px+) -->
+        <!-- Nav links (hidden on mobile, shown at 1024px+) -->
         <div class="nav__links" role="list">
           <a href="index.html"
              class="font-body font-medium text-ink hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded px-3 py-2"
@@ -31,11 +91,11 @@
           <a href="subjects.html"
              class="font-body font-medium text-ink hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded px-3 py-2"
              role="listitem">Subjects</a>
-          <a href="pricing.html" aria-current="page"
-             class="font-body font-medium text-navy hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded px-3 py-2"
-             role="listitem">Pricing</a>
-          <a href="availability.html"
+          <a href="pricing.html"
              class="font-body font-medium text-ink hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded px-3 py-2"
+             role="listitem">Pricing</a>
+          <a href="availability.html" aria-current="page"
+             class="font-body font-medium text-navy hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded px-3 py-2"
              role="listitem">Availability</a>
           <a href="resources.html"
              class="font-body font-medium text-ink hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded px-3 py-2"
@@ -84,128 +144,122 @@
     <section class="bg-navy py-16 lg:py-20">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         <h1 class="font-display font-bold text-white text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4">
-          Pricing
+          Availability
         </h1>
         <p class="font-body text-gray-300 text-lg sm:text-xl">
-          Straightforward pricing with no hidden fees &mdash; book via WhatsApp
+          Weekday evenings from 5:30pm &mdash; book your slot via WhatsApp
         </p>
       </div>
     </section>
 
-    <!-- ===== PRICING CARDS ===== -->
-    <section class="bg-paper py-16 lg:py-24">
+    <!-- ===== AVAILABILITY ===== -->
+    <section class="bg-white py-16 lg:py-24">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-        <div class="border-l-4 border-gold pl-4 mb-12">
-          <h2 class="font-display font-bold text-ink text-3xl sm:text-4xl">Session Rates</h2>
+        <div class="border-l-4 border-gold pl-4 mb-6">
+          <h2 class="font-display font-bold text-ink text-3xl sm:text-4xl">Weekly Availability</h2>
         </div>
 
-        <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        <p class="font-body text-gray-600 text-base mb-8 max-w-2xl">
+          Gold blocks are open &mdash; tap one to message me and grab it. I teach weekday
+          evenings only (from 5:30pm, after my day job). Weekends available on request.
+        </p>
 
-          <!-- Card: Online -->
-          <div class="bg-white rounded-xl p-7 shadow-sm border-t-4 border-gold relative">
-            <span class="absolute top-5 right-5 bg-gold text-white font-body font-semibold text-xs px-3 py-1 rounded-full">Most Popular</span>
-            <div class="text-3xl mb-3" aria-hidden="true">💻</div>
-            <h3 class="font-display font-bold text-2xl text-ink mb-1">Online</h3>
-            <p class="font-display font-bold text-5xl text-gold mb-1">£25<span class="text-xl text-gray-400 font-body font-normal">/hr</span></p>
-            <ul class="mt-5 space-y-2 mb-7">
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Via Google Meet, Zoom or Teams
-              </li>
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Flexible scheduling
-              </li>
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Screen sharing for worked examples
-              </li>
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Recordings available on request
-              </li>
-            </ul>
-            <a href="#"
-               class="js-whatsapp w-full inline-flex items-center justify-center gap-2 bg-whatsapp hover:bg-green-700 text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-whatsapp focus:ring-offset-2"
-               data-wa-message="Hi Jason, I'd like to book an online tutoring session.">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Book Online Session
+        <!--
+          =====================================================================
+          HOW TO UPDATE THIS CALENDAR (full key is in the <style> in <head>):
+            • Gold blocks  (.cal__avail)  = OPEN slots, clickable to WhatsApp.
+            • Grey blocks  (.cal__booked) = taken.
+            • Hatched      (.cal__slot)   = closed (before 5:30pm).
+          To free up / book time, change a block's:
+            grid-column  -> Mon=2 Tue=3 Wed=4 Thu=5 Fri=6
+            grid-row     -> start / end   (5:30pm=3 · 6pm=4 · ... · 10pm=12)
+          =====================================================================
+        -->
+        <div class="reveal overflow-x-auto pb-2 mb-6">
+          <div class="cal">
+
+            <!-- Day headers -->
+            <div class="cal__head" style="grid-column: 2; grid-row: 1;">Mon</div>
+            <div class="cal__head" style="grid-column: 3; grid-row: 1;">Tue</div>
+            <div class="cal__head" style="grid-column: 4; grid-row: 1;">Wed</div>
+            <div class="cal__head" style="grid-column: 5; grid-row: 1;">Thu</div>
+            <div class="cal__head" style="grid-column: 6; grid-row: 1;">Fri</div>
+
+            <!-- Time axis -->
+            <div class="cal__time" style="grid-column: 1; grid-row: 2;">5pm</div>
+            <div class="cal__time" style="grid-column: 1; grid-row: 4;">6pm</div>
+            <div class="cal__time" style="grid-column: 1; grid-row: 6;">7pm</div>
+            <div class="cal__time" style="grid-column: 1; grid-row: 8;">8pm</div>
+            <div class="cal__time" style="grid-column: 1; grid-row: 10;">9pm</div>
+            <div class="cal__time" style="grid-column: 1; grid-row: 11; align-self: end;">10pm</div>
+
+            <!-- Closed before 5:30pm (day job) -->
+            <div class="cal__slot" style="grid-column: 2; grid-row: 2 / 3;"></div>
+            <div class="cal__slot" style="grid-column: 3; grid-row: 2 / 3;"></div>
+            <div class="cal__slot" style="grid-column: 4; grid-row: 2 / 3;"></div>
+            <div class="cal__slot" style="grid-column: 5; grid-row: 2 / 3;"></div>
+            <div class="cal__slot" style="grid-column: 6; grid-row: 2 / 3;"></div>
+
+            <!-- ===== MON ===== -->
+            <div class="cal__booked" style="grid-column: 2; grid-row: 3 / 7;">Booked</div>
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 2; grid-row: 7 / 12;"
+               data-wa-message="Hi Jason, I'd like to book a Monday evening slot (7:30–10pm).">
+              <b>Available</b><span>7:30–10pm</span>
             </a>
-          </div>
 
-          <!-- Card: In Person -->
-          <div class="bg-white rounded-xl p-7 shadow-sm border-t-4 border-gold">
-            <div class="text-3xl mb-3" aria-hidden="true">🏠</div>
-            <h3 class="font-display font-bold text-2xl text-ink mb-1">In Person</h3>
-            <p class="font-display font-bold text-5xl text-gold mb-1">£30<span class="text-xl text-gray-400 font-body font-normal">/hr</span></p>
-            <p class="font-body text-gray-500 text-xs mb-0">Manchester area only</p>
-            <ul class="mt-5 space-y-2 mb-7">
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                At your home or agreed location
-              </li>
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Hands-on worked examples
-              </li>
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Printed materials provided
-              </li>
-              <li class="flex items-start gap-2 font-body text-sm text-gray-700">
-                <span class="text-gold font-bold mt-0.5" aria-hidden="true">&#10003;</span>
-                Manchester and surrounding areas
-              </li>
-            </ul>
-            <a href="#"
-               class="js-whatsapp w-full inline-flex items-center justify-center gap-2 bg-whatsapp hover:bg-green-700 text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-whatsapp focus:ring-offset-2"
-               data-wa-message="Hi Jason, I'd like to book an in-person tutoring session.">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Book In-Person Session
+            <!-- ===== TUE ===== -->
+            <div class="cal__booked" style="grid-column: 3; grid-row: 3 / 7;">Booked</div>
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 3; grid-row: 7 / 12;"
+               data-wa-message="Hi Jason, I'd like to book a Tuesday evening slot (7:30–10pm).">
+              <b>Available</b><span>7:30–10pm</span>
             </a>
-          </div>
 
+            <!-- ===== WED ===== -->
+            <div class="cal__booked" style="grid-column: 4; grid-row: 3 / 5;">Booked</div>
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 4; grid-row: 5 / 7;"
+               data-wa-message="Hi Jason, I'd like to book the Wednesday 6:30–7:30pm slot.">
+              <b>Available</b><span>6:30–7:30pm</span>
+            </a>
+            <div class="cal__booked" style="grid-column: 4; grid-row: 7 / 9;">Booked</div>
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 4; grid-row: 9 / 12;"
+               data-wa-message="Hi Jason, I'd like to book a Wednesday evening slot (8:30–10pm).">
+              <b>Available</b><span>8:30–10pm</span>
+            </a>
+
+            <!-- ===== THU ===== -->
+            <div class="cal__booked" style="grid-column: 5; grid-row: 3 / 9;">Booked</div>
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 5; grid-row: 9 / 12;"
+               data-wa-message="Hi Jason, I'd like to book a Thursday evening slot (8:30–10pm).">
+              <b>Available</b><span>8:30–10pm</span>
+            </a>
+
+            <!-- ===== FRI ===== -->
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 6; grid-row: 3 / 4;"
+               data-wa-message="Hi Jason, I'd like to book the Friday 5:30–6pm slot.">
+              <b>Available</b><span>5:30–6pm</span>
+            </a>
+            <div class="cal__booked" style="grid-column: 6; grid-row: 4 / 10;">Booked</div>
+            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 6; grid-row: 10 / 12;"
+               data-wa-message="Hi Jason, I'd like to book the Friday 9–10pm slot.">
+              <b>Available</b><span>9–10pm</span>
+            </a>
+
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ===== CANCELLATION POLICY ===== -->
-    <section class="bg-gold-soft py-16 lg:py-24">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
-        <div class="border-l-4 border-gold pl-4 mb-10">
-          <h2 class="font-display font-bold text-ink text-3xl sm:text-4xl">Cancellation Policy</h2>
+        <!-- Legend -->
+        <div class="flex flex-wrap gap-x-6 gap-y-3 mb-6 text-sm font-body text-gray-600">
+          <span class="flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="background:#C2982E;"></span> Available — tap to book</span>
+          <span class="flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="background:#f1f2f4;"></span> Booked</span>
+          <span class="flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="background:repeating-linear-gradient(45deg,#f4f1ea,#f4f1ea 3px,#ece7db 3px,#ece7db 6px);"></span> Closed (before 5:30pm)</span>
         </div>
 
-        <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <p class="font-body text-gray-500 text-sm">
+          <span class="text-gold font-bold" aria-hidden="true">&#10003;</span>&nbsp;
+          Weekends available on request &mdash; message to check
+        </p>
 
-          <div class="bg-white rounded-xl p-7 shadow-sm border-t-4 border-gold">
-            <div class="text-3xl mb-4" aria-hidden="true">📅</div>
-            <p class="font-body text-ink text-sm leading-relaxed">
-              <span class="font-semibold">24 hours notice</span> required to cancel or reschedule at no charge.
-            </p>
-          </div>
-
-          <div class="bg-white rounded-xl p-7 shadow-sm border-t-4 border-gold">
-            <div class="text-3xl mb-4" aria-hidden="true">⚠️</div>
-            <p class="font-body text-ink text-sm leading-relaxed">
-              Cancellations with <span class="font-semibold">less than 24 hours notice</span> may be charged at the full session rate.
-            </p>
-          </div>
-
-          <div class="bg-white rounded-xl p-7 shadow-sm border-t-4 border-gold">
-            <div class="text-3xl mb-4" aria-hidden="true">😊</div>
-            <p class="font-body text-ink text-sm leading-relaxed">
-              The <span class="font-semibold">first session</span> is a relaxed introductory lesson &mdash; no pressure.
-            </p>
-          </div>
-
-        </div>
       </div>
     </section>
 
@@ -213,10 +267,10 @@
     <section class="bg-navy py-16 lg:py-20 text-center">
       <div class="max-w-2xl mx-auto px-4 sm:px-6">
         <h2 class="font-display font-bold text-white text-3xl sm:text-4xl mb-4">
-          Ready to book?
+          See a slot that works?
         </h2>
         <p class="font-body text-gray-300 text-lg leading-relaxed mb-8">
-          Message on WhatsApp to check availability and get started
+          Message on WhatsApp to grab it &mdash; or to ask about weekends
         </p>
         <a href="#"
            class="js-whatsapp inline-flex items-center justify-center gap-2 bg-whatsapp hover:bg-green-700 text-white font-bold text-base px-8 py-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-whatsapp focus:ring-offset-2 focus:ring-offset-navy"

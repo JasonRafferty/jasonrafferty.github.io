@@ -58,13 +58,13 @@
   display: none;
 }
 
-/* Desktop nav: always visible at 860px+ */
-@media (min-width: 860px) {
+/* Desktop nav: always visible at 1024px+ */
+@media (min-width: 1024px) {
   .nav__links {
     display: flex !important;
     flex-direction: row;
     align-items: center;
-    gap: 0.25rem;
+    gap: 1rem;
     position: static;
     background: transparent;
     padding: 0;
@@ -132,9 +132,30 @@
 
 /* ===== TESTIMONIALS MARQUEE ===== */
 .testimonials-marquee {
-  /* Fade edges */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fade edges via overlays — avoids mask-image compositing conflicts on mobile Chrome */
+.testimonials-marquee::before,
+.testimonials-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.testimonials-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, #F2E7C6, transparent);
+}
+
+.testimonials-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, #F2E7C6, transparent);
 }
 
 .testimonials-track {
@@ -142,12 +163,15 @@
   gap: 1.5rem;
   width: max-content;
   animation: testimonials-scroll 55s linear infinite;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 
 @keyframes testimonials-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .testimonial-card {
