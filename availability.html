@@ -10,85 +10,148 @@
   <link rel="stylesheet" href="/css/styles.css">
   <title>Availability | Jason Rafferty Tutoring</title>
   <style>
-    /* ===================================================================
-       WEEKLY AVAILABILITY CALENDAR
-
-       Every booking and open slot is a single block you place on the grid.
-       To add / move / remove one, edit just two things on the block:
-
-         grid-column:  Mon = 2 · Tue = 3 · Wed = 4 · Thu = 5 · Fri = 6
-
-         grid-row: <start line> / <end line>   — each row is 30 minutes:
-           5:00pm = 2    7:00pm = 6     9:00pm = 10
-           5:30pm = 3    7:30pm = 7     9:30pm = 11
-           6:00pm = 4    8:00pm = 8    10:00pm = 12
-           6:30pm = 5    8:30pm = 9
-
-       So a 1-hour block spans 2 rows. Examples:
-         A booked Monday lesson 5:30–6:30pm  -> grid-column: 2; grid-row: 3 / 5
-         An open Tuesday slot   8:00–9:00pm  -> grid-column: 3; grid-row: 8 / 10
-
-       Block types:
-         .cal__avail   open slot (gold, tappable to WhatsApp)
-         .cal__booked  taken (grey, "Booked")
-         .cal__closed  before 5:30pm — your day job (hatched)
-
-       Empty time shows as blank gridline cells automatically — no need to
-       fill gaps. Leave a gap after a booking for travel before adding an
-       open in-person slot.
-       =================================================================== */
-    .cal {
+    .schedule-grid {
       display: grid;
-      grid-template-columns: 3.25rem repeat(5, minmax(0, 1fr));
-      grid-template-rows: 2.25rem repeat(10, 2.6rem);
-      column-gap: 0.4rem;
-      row-gap: 0;
-      min-width: 640px;
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+      gap: 1rem;
     }
-    .cal__head {
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 600; font-size: 0.9rem; color: #16233B;
+    .schedule-card {
+      background: #ffffff;
+      border-top: 4px solid #C2982E;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
+      overflow: hidden;
     }
-    .cal__time {
-      align-self: start;
-      justify-self: end;
-      padding-right: 0.4rem;
-      font-size: 0.7rem; font-weight: 600; color: #9ca3af;
+    .schedule-card__head {
+      padding: 1rem 1rem 0.85rem;
+      border-bottom: 1px solid #F0EBE0;
     }
-    /* Background column per day — draws the empty calendar cells / gridlines */
-    .cal__bg {
-      border: 1px solid #eee;
-      border-radius: 0.5rem;
-      background-color: #fbfaf7;
-      background-image:
-        repeating-linear-gradient(to bottom, #e7ddc7 0 1px, transparent 1px 5.2rem),
-        repeating-linear-gradient(to bottom, #f3eee2 0 1px, transparent 1px 2.6rem);
+    .schedule-card__title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
     }
-    /* All placed blocks sit above the background columns */
-    .cal__closed, .cal__booked, .cal__avail {
-      position: relative; z-index: 1; margin: 0.15rem;
-      border-radius: 0.5rem;
+    .schedule-card__count {
+      background: #F0EBD9;
+      color: #7A6316;
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.6rem;
+      border-radius: 9999px;
     }
-    .cal__closed {            /* closed — before 5:30pm */
-      background: repeating-linear-gradient(45deg, #f0ece3, #f0ece3 5px, #e6e0d3 5px, #e6e0d3 10px);
+    /* Timeline strip */
+    .timeline {
+      height: 6px;
+      border-radius: 3px;
+      background: #EDE8DC;
+      position: relative;
+      overflow: hidden;
     }
-    .cal__booked {
-      display: flex; align-items: center; justify-content: center;
-      background: #eceef1; color: #98a0ab;
-      font-size: 0.72rem; font-weight: 600;
-      border: 1px solid #e3e6ea;
+    .timeline-block {
+      position: absolute;
+      top: 0;
+      height: 100%;
     }
-    .cal__avail {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.1rem; padding: 0.25rem; text-align: center; text-decoration: none;
-      background: #C2982E; color: #ffffff;
-      box-shadow: 0 2px 6px rgba(194, 152, 46, 0.35);
-      transition: transform .15s ease, box-shadow .15s ease;
+    .timeline-block--booked     { background: #BDB5AA; }
+    .timeline-block--unavailable{ background: #D8D2C8; }
+    .timeline-block--available  { background: #1FA855; }
+    /* Card body */
+    .schedule-card__body {
+      display: grid;
+      gap: 0.3rem;
+      padding: 0.5rem 0.75rem 0.75rem;
     }
-    .cal__avail:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(194, 152, 46, 0.45); }
-    .cal__avail:focus-visible { outline: 2px solid #16233B; outline-offset: 2px; }
-    .cal__avail b { font-size: 0.8rem; font-weight: 700; line-height: 1.1; }
-    .cal__avail span { font-size: 0.64rem; opacity: .92; line-height: 1.1; }
+    /* Slot rows */
+    .slot-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem 0.65rem;
+      border-radius: 0.4rem;
+      text-decoration: none;
+      min-height: 2.5rem;
+    }
+    .slot-row__time {
+      font-size: 0.875rem;
+      line-height: 1.2;
+    }
+    .slot-row__action {
+      flex: 0 0 auto;
+      border-radius: 9999px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    /* Available */
+    .slot-row--available {
+      background: #1FA855;
+      color: #ffffff;
+      box-shadow: 0 1px 6px rgba(31,168,85,0.18);
+      transition: background-color .15s ease, transform .12s ease, box-shadow .12s ease;
+    }
+    .slot-row--available:hover {
+      background: #178A47;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(31,168,85,0.28);
+    }
+    .slot-row--available:focus-visible {
+      outline: 2px solid #16233B;
+      outline-offset: 2px;
+    }
+    .slot-row--available .slot-row__time {
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .slot-row--available .slot-row__action {
+      background: rgba(255,255,255,0.22);
+      color: #ffffff;
+    }
+    /* Booked */
+    .slot-row--booked {
+      background: #F5F1E8;
+      border: 1px solid #E8E0CC;
+    }
+    .slot-row--booked .slot-row__time {
+      color: #9E9286;
+      font-weight: 500;
+      font-size: 0.82rem;
+    }
+    .slot-row--booked .slot-row__action {
+      background: #EAE3D2;
+      color: #A09488;
+    }
+    /* Unavailable */
+    .slot-row--unavailable .slot-row__time {
+      color: #C4BDB5;
+      font-weight: 400;
+      font-size: 0.82rem;
+      font-style: italic;
+    }
+    @media (min-width: 1280px) {
+      .schedule-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 480px) {
+      .slot-row--available {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+      }
+      .slot-row--available .slot-row__action {
+        width: 100%;
+        text-align: center;
+        padding: 0.45rem 0;
+      }
+    }
   </style>
 </head>
 <body class="bg-paper font-body text-ink">
@@ -162,132 +225,244 @@
   <main id="main">
 
     <!-- ===== HERO ===== -->
-    <section class="bg-navy py-16 lg:py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+    <section class="bg-navy py-10 lg:py-14 relative overflow-hidden">
+      <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
         <h1 class="font-display font-bold text-white text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4">
           Availability
         </h1>
         <p class="font-body text-gray-300 text-lg sm:text-xl">
-          Weekday evenings from 5:30pm &mdash; book your slot via WhatsApp
+          Weekday evenings from 5:30 pm. Book your slot via WhatsApp.
         </p>
       </div>
     </section>
 
     <!-- ===== AVAILABILITY ===== -->
-    <section class="bg-white py-16 lg:py-24">
+    <section class="bg-paper py-16 lg:py-24">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="border-l-4 border-gold pl-4 mb-6">
-          <h2 class="font-display font-bold text-ink text-3xl sm:text-4xl">Weekly Availability</h2>
+          <h2 class="font-display font-bold text-ink text-3xl sm:text-4xl">Weekly Schedule</h2>
         </div>
 
         <p class="font-body text-gray-600 text-base mb-8 max-w-2xl">
-          Gold blocks are open &mdash; tap one to message me and grab it. I teach weekday
-          evenings only (from 5:30pm, after my day job). Weekends available on request.
+          Green slots are open and ready to book. Booking times may vary slightly due to commuting between lessons.
         </p>
 
-        <!--
-          =====================================================================
-          HOW TO UPDATE THIS CALENDAR (full key is in the <style> in <head>):
-            • Gold blocks  (.cal__avail)  = OPEN 1-hour slots, clickable to WhatsApp.
-            • Grey blocks  (.cal__booked) = taken (one block per session).
-            • Hatched      (.cal__closed) = closed, before 5:30pm (day job).
-          Each block: grid-column = day (Mon=2 ... Fri=6),
-                      grid-row = start / end   (30-min rows: 5:30pm=3 ... 10pm=12).
-          A 1-hour block spans 2 rows. Empty time fills itself in — just leave a
-          gap after a booking for travel before adding an in-person open slot.
-          =====================================================================
-        -->
-        <div class="reveal overflow-x-auto pb-2 mb-6">
-          <div class="cal">
+        <div class="reveal schedule-grid mb-6">
 
-            <!-- Background columns (empty cells + gridlines) -->
-            <div class="cal__bg" style="grid-column: 2; grid-row: 2 / 12;"></div>
-            <div class="cal__bg" style="grid-column: 3; grid-row: 2 / 12;"></div>
-            <div class="cal__bg" style="grid-column: 4; grid-row: 2 / 12;"></div>
-            <div class="cal__bg" style="grid-column: 5; grid-row: 2 / 12;"></div>
-            <div class="cal__bg" style="grid-column: 6; grid-row: 2 / 12;"></div>
+          <!-- MONDAY -->
+          <article class="schedule-card">
+            <div class="schedule-card__head">
+              <div class="schedule-card__title-row">
+                <h3 class="font-display font-bold text-ink text-xl">Monday</h3>
+                <span class="schedule-card__count">3 open</span>
+              </div>
+              <!-- Timeline: 5:30pm–9:30pm over 270-min range -->
+              <div class="timeline" aria-hidden="true">
+                <div class="timeline-block timeline-block--booked"    style="left:0%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--booked"    style="left:22.22%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--available" style="left:44.44%;width:44.44%"></div>
+              </div>
+            </div>
+            <div class="schedule-card__body">
+              <div class="slot-row slot-row--booked" aria-label="Booked: 5:30 to 6:30 pm">
+                <span class="slot-row__time">5:30–6:30 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <div class="slot-row slot-row--booked" aria-label="Booked: 6:30 to 7:30 pm">
+                <span class="slot-row__time">6:30–7:30 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Monday 7:30-8:30pm slot."
+                 aria-label="Book Monday 7:30 to 8:30 pm via WhatsApp">
+                <span class="slot-row__time">7:30–8:30 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Monday 8-9pm slot."
+                 aria-label="Book Monday 8:00 to 9:00 pm via WhatsApp">
+                <span class="slot-row__time">8:00–9:00 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Monday 8:30-9:30pm slot."
+                 aria-label="Book Monday 8:30 to 9:30 pm via WhatsApp">
+                <span class="slot-row__time">8:30–9:30 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+            </div>
+          </article>
 
-            <!-- Day headers -->
-            <div class="cal__head" style="grid-column: 2; grid-row: 1;">Mon</div>
-            <div class="cal__head" style="grid-column: 3; grid-row: 1;">Tue</div>
-            <div class="cal__head" style="grid-column: 4; grid-row: 1;">Wed</div>
-            <div class="cal__head" style="grid-column: 5; grid-row: 1;">Thu</div>
-            <div class="cal__head" style="grid-column: 6; grid-row: 1;">Fri</div>
+          <!-- TUESDAY -->
+          <article class="schedule-card">
+            <div class="schedule-card__head">
+              <div class="schedule-card__title-row">
+                <h3 class="font-display font-bold text-ink text-xl">Tuesday</h3>
+                <span class="schedule-card__count">3 open</span>
+              </div>
+              <div class="timeline" aria-hidden="true">
+                <div class="timeline-block timeline-block--booked"    style="left:0%;width:44.44%"></div>
+                <div class="timeline-block timeline-block--available" style="left:44.44%;width:44.44%"></div>
+              </div>
+            </div>
+            <div class="schedule-card__body">
+              <div class="slot-row slot-row--booked" aria-label="Booked: 5:30 to 7:30 pm">
+                <span class="slot-row__time">5:30–7:30 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Tuesday 7:30-8:30pm slot."
+                 aria-label="Book Tuesday 7:30 to 8:30 pm via WhatsApp">
+                <span class="slot-row__time">7:30–8:30 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Tuesday 8-9pm slot."
+                 aria-label="Book Tuesday 8:00 to 9:00 pm via WhatsApp">
+                <span class="slot-row__time">8:00–9:00 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Tuesday 8:30-9:30pm slot."
+                 aria-label="Book Tuesday 8:30 to 9:30 pm via WhatsApp">
+                <span class="slot-row__time">8:30–9:30 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+            </div>
+          </article>
 
-            <!-- Time axis -->
-            <div class="cal__time" style="grid-column: 1; grid-row: 2;">5pm</div>
-            <div class="cal__time" style="grid-column: 1; grid-row: 4;">6pm</div>
-            <div class="cal__time" style="grid-column: 1; grid-row: 6;">7pm</div>
-            <div class="cal__time" style="grid-column: 1; grid-row: 8;">8pm</div>
-            <div class="cal__time" style="grid-column: 1; grid-row: 10;">9pm</div>
-            <div class="cal__time" style="grid-column: 1; grid-row: 11; align-self: end;">10pm</div>
+          <!-- WEDNESDAY -->
+          <article class="schedule-card">
+            <div class="schedule-card__head">
+              <div class="schedule-card__title-row">
+                <h3 class="font-display font-bold text-ink text-xl">Wednesday</h3>
+                <span class="schedule-card__count">1 open</span>
+              </div>
+              <div class="timeline" aria-hidden="true">
+                <div class="timeline-block timeline-block--booked"       style="left:5.56%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--unavailable"  style="left:27.78%;width:16.67%"></div>
+                <div class="timeline-block timeline-block--booked"       style="left:44.44%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--available"    style="left:66.67%;width:22.22%"></div>
+              </div>
+            </div>
+            <div class="schedule-card__body">
+              <div class="slot-row slot-row--booked" aria-label="Booked: 5:45 to 6:45 pm">
+                <span class="slot-row__time">5:45–6:45 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <div class="slot-row slot-row--unavailable" aria-label="Unavailable: 6:45 to 7:30 pm">
+                <span class="slot-row__time">6:45–7:30 pm</span>
+              </div>
+              <div class="slot-row slot-row--booked" aria-label="Booked: 7:30 to 8:30 pm">
+                <span class="slot-row__time">7:30–8:30 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Wednesday 8:30-9:30pm slot."
+                 aria-label="Book Wednesday 8:30 to 9:30 pm via WhatsApp">
+                <span class="slot-row__time">8:30–9:30 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+            </div>
+          </article>
 
-            <!-- Closed before 5:30pm (day job) -->
-            <div class="cal__closed" style="grid-column: 2; grid-row: 2 / 3;"></div>
-            <div class="cal__closed" style="grid-column: 3; grid-row: 2 / 3;"></div>
-            <div class="cal__closed" style="grid-column: 4; grid-row: 2 / 3;"></div>
-            <div class="cal__closed" style="grid-column: 5; grid-row: 2 / 3;"></div>
-            <div class="cal__closed" style="grid-column: 6; grid-row: 2 / 3;"></div>
+          <!-- THURSDAY -->
+          <article class="schedule-card">
+            <div class="schedule-card__head">
+              <div class="schedule-card__title-row">
+                <h3 class="font-display font-bold text-ink text-xl">Thursday</h3>
+                <span class="schedule-card__count">1 open</span>
+              </div>
+              <div class="timeline" aria-hidden="true">
+                <div class="timeline-block timeline-block--booked"    style="left:0%;width:33.33%"></div>
+                <div class="timeline-block timeline-block--booked"    style="left:33.33%;width:33.33%"></div>
+                <div class="timeline-block timeline-block--available" style="left:66.67%;width:22.22%"></div>
+              </div>
+            </div>
+            <div class="schedule-card__body">
+              <div class="slot-row slot-row--booked" aria-label="Booked: 5:30 to 7:00 pm">
+                <span class="slot-row__time">5:30–7:00 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <div class="slot-row slot-row--booked" aria-label="Booked: 7:00 to 8:30 pm">
+                <span class="slot-row__time">7:00–8:30 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Thursday 8:30-9:30pm slot."
+                 aria-label="Book Thursday 8:30 to 9:30 pm via WhatsApp">
+                <span class="slot-row__time">8:30–9:30 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+            </div>
+          </article>
 
-            <!-- ===== MON ===== -->
-            <div class="cal__booked" style="grid-column: 2; grid-row: 3 / 5;">Booked</div>
-            <div class="cal__booked" style="grid-column: 2; grid-row: 5 / 7;">Booked</div>
-            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 2; grid-row: 8 / 10;"
-               data-wa-message="Hi Jason, I'd like to book the Monday 8–9pm slot.">
-              <b>Available</b><span>8–9pm</span>
-            </a>
-            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 2; grid-row: 10 / 12;"
-               data-wa-message="Hi Jason, I'd like to book the Monday 9–10pm slot.">
-              <b>Available</b><span>9–10pm</span>
-            </a>
+          <!-- FRIDAY -->
+          <article class="schedule-card">
+            <div class="schedule-card__head">
+              <div class="schedule-card__title-row">
+                <h3 class="font-display font-bold text-ink text-xl">Friday</h3>
+                <span class="schedule-card__count">1 open</span>
+              </div>
+              <div class="timeline" aria-hidden="true">
+                <div class="timeline-block timeline-block--unavailable" style="left:0%;width:11.11%"></div>
+                <div class="timeline-block timeline-block--booked"      style="left:11.11%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--booked"      style="left:33.33%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--booked"      style="left:55.56%;width:22.22%"></div>
+                <div class="timeline-block timeline-block--available"   style="left:77.78%;width:22.22%"></div>
+              </div>
+            </div>
+            <div class="schedule-card__body">
+              <div class="slot-row slot-row--unavailable" aria-label="Unavailable: 5:30 to 6:00 pm">
+                <span class="slot-row__time">5:30–6:00 pm</span>
+              </div>
+              <div class="slot-row slot-row--booked" aria-label="Booked: 6:00 to 7:00 pm">
+                <span class="slot-row__time">6:00–7:00 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <div class="slot-row slot-row--booked" aria-label="Booked: 7:00 to 8:00 pm">
+                <span class="slot-row__time">7:00–8:00 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <div class="slot-row slot-row--booked" aria-label="Booked: 8:00 to 9:00 pm">
+                <span class="slot-row__time">8:00–9:00 pm</span>
+                <span class="slot-row__action">Taken</span>
+              </div>
+              <a class="slot-row slot-row--available js-whatsapp" href="#"
+                 data-wa-message="Hi Jason, I'd like to book the Friday 9-10pm slot."
+                 aria-label="Book Friday 9:00 to 10:00 pm via WhatsApp">
+                <span class="slot-row__time">9:00–10:00 pm</span>
+                <span class="slot-row__action">Book</span>
+              </a>
+            </div>
+          </article>
 
-            <!-- ===== TUE ===== -->
-            <div class="cal__booked" style="grid-column: 3; grid-row: 3 / 7;">Booked</div>
-            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 3; grid-row: 8 / 10;"
-               data-wa-message="Hi Jason, I'd like to book the Tuesday 8–9pm slot.">
-              <b>Available</b><span>8–9pm</span>
-            </a>
-            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 3; grid-row: 10 / 12;"
-               data-wa-message="Hi Jason, I'd like to book the Tuesday 9–10pm slot.">
-              <b>Available</b><span>9–10pm</span>
-            </a>
-
-            <!-- ===== WED ===== -->
-            <div class="cal__booked" style="grid-column: 4; grid-row: 3 / 5;">Booked</div>
-            <div class="cal__booked" style="grid-column: 4; grid-row: 7 / 9;">Booked</div>
-            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 4; grid-row: 10 / 12;"
-               data-wa-message="Hi Jason, I'd like to book the Wednesday 9–10pm slot.">
-              <b>Available</b><span>9–10pm</span>
-            </a>
-
-            <!-- ===== THU ===== -->
-            <div class="cal__booked" style="grid-column: 5; grid-row: 3 / 5;">Booked</div>
-            <div class="cal__booked" style="grid-column: 5; grid-row: 5 / 9;">Booked</div>
-            <a class="cal__avail js-whatsapp" href="#" style="grid-column: 5; grid-row: 10 / 12;"
-               data-wa-message="Hi Jason, I'd like to book the Thursday 9–10pm slot.">
-              <b>Available</b><span>9–10pm</span>
-            </a>
-
-            <!-- ===== FRI ===== -->
-            <div class="cal__booked" style="grid-column: 6; grid-row: 4 / 6;">Booked</div>
-            <div class="cal__booked" style="grid-column: 6; grid-row: 6 / 8;">Booked</div>
-            <div class="cal__booked" style="grid-column: 6; grid-row: 8 / 10;">Booked</div>
-
-          </div>
         </div>
 
         <!-- Legend -->
-        <div class="flex flex-wrap gap-x-6 gap-y-3 mb-6 text-sm font-body text-gray-600">
-          <span class="flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="background:#C2982E;"></span> Available — tap to book</span>
-          <span class="flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="background:#eceef1;border:1px solid #e3e6ea;"></span> Booked</span>
-          <span class="flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="background:repeating-linear-gradient(45deg,#f0ece3,#f0ece3 3px,#e6e0d3 3px,#e6e0d3 6px);"></span> Closed (before 5:30pm)</span>
+        <div class="flex flex-wrap gap-x-6 gap-y-3 mb-6 text-sm font-body">
+          <span class="flex items-center gap-2">
+            <span class="inline-block w-3 h-3 rounded-full" style="background:#1FA855"></span>
+            <span class="text-gray-600">Open for booking</span>
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="inline-block w-3 h-3 rounded-full" style="background:#BDB5AA"></span>
+            <span class="text-gray-600">Booked</span>
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="inline-block w-3 h-3 rounded-full" style="background:#D8D2C8"></span>
+            <span class="text-gray-500 italic">Gap too short to book</span>
+          </span>
         </div>
 
-        <p class="font-body text-gray-500 text-sm">
-          <span class="text-gold font-bold" aria-hidden="true">&#10003;</span>&nbsp;
-          Weekends available on request &mdash; message to check
-        </p>
+        <div class="flex flex-wrap gap-x-6 gap-y-2 font-body text-gray-500 text-sm">
+          <p><span class="text-gold font-bold" aria-hidden="true">&#10003;</span>&nbsp; Weekends available on request. Message to check.</p>
+          <p><span class="text-gold font-bold" aria-hidden="true">&#10003;</span>&nbsp; Usually replies within half an hour.</p>
+          <p><span class="text-gold font-bold" aria-hidden="true">&#10003;</span>&nbsp; No deposit needed to secure a booking.</p>
+        </div>
 
       </div>
     </section>
@@ -299,7 +474,7 @@
           See a slot that works?
         </h2>
         <p class="font-body text-gray-300 text-lg leading-relaxed mb-8">
-          Message on WhatsApp to grab it &mdash; or to ask about weekends
+          Message on WhatsApp to grab it or to ask about weekends.
         </p>
         <a href="#"
            class="js-whatsapp inline-flex items-center justify-center gap-2 bg-whatsapp hover:bg-green-700 text-white font-bold text-base px-8 py-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-whatsapp focus:ring-offset-2 focus:ring-offset-navy"
