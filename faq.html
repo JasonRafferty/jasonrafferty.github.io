@@ -17,8 +17,13 @@
   <!-- ===== NAVIGATION ===== -->
   <nav class="nav sticky top-0 z-50 bg-white shadow-sm" aria-label="Main navigation">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-end h-16">
+      <div class="flex items-center justify-between h-16">
 
+        <!-- Brand name — mobile only -->
+        <a href="index.html" class="lg:hidden inline-flex items-center gap-2 font-display font-bold text-navy text-lg leading-tight">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#C2982E" aria-hidden="true"><path d="M12 3 2 8.5l10 5.5 10-5.5L12 3z"/><path d="M7 11.3V17c0 1.1 2.2 2 5 2s5-.9 5-2v-5.7L12 14l-5-2.7z"/><path d="M20 8.5v5" stroke="#C2982E" stroke-width="2" stroke-linecap="round"/></svg>
+          Jason Rafferty Tutoring
+        </a>
 
         <!-- Nav links (hidden on mobile, shown at 860px+) -->
         <div class="nav__links" role="list">
@@ -81,9 +86,9 @@
   <main id="main">
 
     <!-- ===== HERO ===== -->
-    <section class="bg-navy py-16 lg:py-20">
+    <section class="bg-navy py-8 lg:py-10">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-        <h1 class="font-display font-bold text-white text-4xl sm:text-5xl leading-tight mb-4">
+        <h1 class="font-display font-bold text-white text-4xl sm:text-5xl leading-tight mb-5">
           Frequently Asked Questions
         </h1>
         <p class="font-body text-gray-300 text-lg sm:text-xl leading-relaxed">
@@ -92,90 +97,106 @@
       </div>
     </section>
 
-    <!-- ===== FAQ OPEN LAYOUT ===== -->
+    <!-- ===== FAQ ACCORDION ===== -->
     <section class="bg-paper py-16 lg:py-24">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6">
 
         <div class="border-l-4 border-gold pl-4 mb-12">
           <h2 class="font-display font-bold text-ink text-3xl sm:text-4xl">Your Questions Answered</h2>
         </div>
 
         <!-- Getting Started -->
-        <h3 class="font-display font-bold text-ink text-xl mb-6">Getting Started</h3>
-        <div class="grid sm:grid-cols-2 gap-6 mb-14">
+        <div class="faq-group mb-10">
+          <p class="font-body font-semibold text-gold text-xs uppercase tracking-widest mb-4">Getting Started</p>
+          <div class="border-t border-gray-200">
 
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">How do I book a session?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">Simply send a WhatsApp message and we will arrange a time that works for you. The first session is a relaxed introductory lesson so we can assess where your child is and agree on a plan going forward.</p>
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">How do I book a session?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">You are welcome to check my availability page to see the times I currently have free. Once you have an idea of what may work best, simply send me a WhatsApp message and we can arrange a suitable time, either online or in person.</p>
+              </div>
+            </div>
+
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">How many sessions does it take to see improvement?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">Every student is different, but many parents notice their child becoming more confident and secure with the topic within the first 3 to 5 sessions. Clear improvements in grades usually take longer and are most often seen after 6 to 12 weeks of regular tutoring, depending on the student's starting point, consistency and the subject being studied.</p>
+              </div>
+            </div>
+
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">What does my child need for online lessons?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">For online lessons, students need a laptop, tablet or computer, a stable internet connection, and somewhere quiet to work. I use Google Meet for all online sessions and will send a link around 30 minutes before the lesson starts. Any worksheets or resources needed can be shared digitally during the session.</p>
+              </div>
+            </div>
+
           </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">How many sessions does it take to see improvement?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">It varies depending on the student and subject, but most students notice increased confidence and understanding within 3 to 5 sessions. Grade improvements typically become visible over 6 to 12 weeks of regular tutoring.</p>
-          </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">Do you offer a trial session?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">Yes, the first session is treated as an introductory lesson. It is a chance to meet, identify gaps, and see if we are a good fit before committing to regular sessions.</p>
-          </div>
-
         </div>
 
         <!-- Sessions & Teaching -->
-        <h3 class="font-display font-bold text-ink text-xl mb-6">Sessions &amp; Teaching</h3>
-        <div class="grid sm:grid-cols-2 gap-6 mb-14">
+        <div class="faq-group mb-10">
+          <p class="font-body font-semibold text-gold text-xs uppercase tracking-widest mb-4">Sessions &amp; Teaching</p>
+          <div class="border-t border-gray-200">
 
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">How long is each session?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">Sessions are one hour. The first 55 minutes are dedicated to teaching, with the final 5 minutes reserved for a brief update with parents on progress and what was covered.</p>
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">How long is each session?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">Sessions are one hour long. The first 55 minutes are focused on teaching, practice and supporting the student with the areas they are finding difficult. The final 5 minutes are set aside for a brief update with parents on what was covered, how the student got on and any next steps.</p>
+              </div>
+            </div>
+
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">Do you set homework?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">Yes. Short focused tasks between sessions help reinforce what was covered and build good study habits. Homework is tailored to the student's level and never excessive.</p>
+              </div>
+            </div>
+
           </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">Are sessions online or in person?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">Both. Online sessions are £25/hr and can be held anywhere via Google Meet, Zoom or Teams. In-person sessions are £30/hr and are available in the Manchester area.</p>
-          </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">What subjects and levels do you teach?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">I tutor Maths, Chemistry, Physics, Biology, English and Computer Science from Primary (KS1–KS2) through to GCSE and A-Level.</p>
-          </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">Do you set homework?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">Yes, where appropriate. Short focused tasks between sessions help reinforce what was covered and build good study habits. Homework is tailored to the student's level and never excessive.</p>
-          </div>
-
         </div>
 
         <!-- Payment & Cancellation -->
-        <h3 class="font-display font-bold text-ink text-xl mb-6">Payment &amp; Cancellation</h3>
-        <div class="grid sm:grid-cols-2 gap-6">
+        <div class="faq-group">
+          <p class="font-body font-semibold text-gold text-xs uppercase tracking-widest mb-4">Payment &amp; Cancellation</p>
+          <div class="border-t border-gray-200">
 
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">How do I make payment?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">Payment is made by bank transfer after each session, or in advance if preferred. Details will be shared once sessions are booked.</p>
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">How do I make payment?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">Payment can be made by bank transfer after each session, or in advance if preferred. I will share the payment details once your sessions have been arranged.</p>
+              </div>
+            </div>
+
+            <div class="faq-item border-b border-gray-200">
+              <button class="faq-trigger w-full flex items-center justify-between py-5 text-left gap-4 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset rounded" aria-expanded="false">
+                <span class="font-display font-bold text-ink text-base sm:text-lg">What is your cancellation policy?</span>
+                <svg class="faq-chevron w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="font-body text-gray-600 text-base leading-relaxed pb-6">I ask for at least 24 hours' notice if you need to cancel or reschedule a session, as this helps make sure the time can be offered to another student who may be waiting for a lesson. Cancellations or changes made with less than 24 hours' notice may be charged a £10 cancellation fee.</p>
+              </div>
+            </div>
+
           </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">What is your cancellation policy?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">I ask for at least 24 hours notice to cancel or reschedule at no charge. Cancellations with less than 24 hours notice may be charged at the full session rate.</p>
-          </div>
-
-          <div class="bg-white rounded-xl shadow-sm border-t-4 border-gold px-7 py-6">
-            <p class="font-body font-semibold text-ink text-base mb-3">Do you offer block booking discounts?</p>
-            <hr class="border-gray-100 mb-4">
-            <p class="font-body text-gray-600 text-base leading-relaxed">I do not currently offer block booking discounts, but sessions are priced competitively and there are no hidden fees or registration costs.</p>
-          </div>
-
         </div>
 
       </div>

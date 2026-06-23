@@ -30,6 +30,16 @@ document.querySelectorAll('.js-year').forEach(el => {
   el.textContent = new Date().getFullYear();
 });
 
+// FAQ Accordion
+document.querySelectorAll('.faq-trigger').forEach(trigger => {
+  const item = trigger.closest('.faq-item');
+  trigger.addEventListener('click', () => {
+    const isOpen = item.classList.contains('is-open');
+    item.classList.toggle('is-open', !isOpen);
+    trigger.setAttribute('aria-expanded', String(!isOpen));
+  });
+});
+
 // Scroll reveal
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(
